@@ -133,6 +133,10 @@ body, .app {
   color: #999;
 }
 
+.book-authors p {
+  margin: 0;
+}
+
 .book-top {
   position: relative;
   height: 200px;
