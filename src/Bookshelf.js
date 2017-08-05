@@ -43,11 +43,11 @@ class Bookshelf extends Component {
                       <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url("${book.imageLinks.thumbnail}")` }}></div>
                       : null}
                       <div className="book-shelf-changer">
-                        <select onChange={(event) => this.updateShelf(event.target.value, book)}>
+                        <select value={book.shelf} onChange={(event) => this.updateShelf(event.target.value, book)}>
                           <option value="none" disabled>Move to...</option>
-                          <option value="currentlyReading" selected={book.shelf === 'currentlyReading'}>Currently Reading</option>
-                          <option value="wantToRead" selected={book.shelf === 'wantToRead'}>Want to Read</option>
-                          <option value="read" selected={book.shelf === 'read'}>Read</option>
+                          <option value="currentlyReading">Currently Reading</option>
+                          <option value="wantToRead">Want to Read</option>
+                          <option value="read">Read</option>
                           <option value="none">None</option>
                         </select>
                       </div>
