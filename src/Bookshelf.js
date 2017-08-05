@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import * as BooksAPI from './BooksAPI';
 
 class Bookshelf extends Component {
   static PropTypes = {
@@ -13,6 +14,10 @@ class Bookshelf extends Component {
       read: 'Read',
       none: 'Other'
     }
+  }
+
+  updateShelf = (shelf, book) => {
+    BooksAPI.update(book, shelf);
   }
 
   render() {
@@ -38,7 +43,7 @@ class Bookshelf extends Component {
                       <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url("${book.imageLinks.thumbnail}")` }}></div>
                       : null}
                       <div className="book-shelf-changer">
-                        <select>
+                        <select onChange={(event) => this.updateShelf(event.target.value, book)}>
                           <option value="none" disabled>Move to...</option>
                           <option value="currentlyReading" selected={book.shelf === 'currentlyReading'}>Currently Reading</option>
                           <option value="wantToRead" selected={book.shelf === 'wantToRead'}>Want to Read</option>
