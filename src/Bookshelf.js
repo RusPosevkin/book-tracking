@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import * as BooksAPI from './BooksAPI';
 
 class Bookshelf extends Component {
   static PropTypes = {
@@ -16,13 +15,11 @@ class Bookshelf extends Component {
     }
   }
 
-  updateShelf = (shelf, book) => {
-    BooksAPI.update(book, shelf);
-  }
-
   render() {
     const filteredBooks = this.props.books.filter((book) => {
-      return book.shelf === this.props.type;
+      return this.props.type === 'none' ?
+        book.shelf === this.props.type :
+        this.props.filteredBooksIDs.indexOf(book.id) !== -1;
     });
 
     if (!filteredBooks.length) {
@@ -43,7 +40,7 @@ class Bookshelf extends Component {
                       <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url("${book.imageLinks.thumbnail}")` }}></div>
                       : null}
                       <div className="book-shelf-changer">
-                        <select value={book.shelf} onChange={(event) => this.updateShelf(event.target.value, book)}>
+                        <select value={book.shelf} onChange={(event) => this.props.updateShelf(book, event.target.value)}>
                           <option value="none" disabled>Move to...</option>
                           <option value="currentlyReading">Currently Reading</option>
                           <option value="wantToRead">Want to Read</option>

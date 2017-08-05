@@ -42,20 +42,27 @@ class SearchBooks extends Component {
         </div>
         <div className="search-books-results">
             <Bookshelf
-              type="currentlyReading"
+              type={this.props.shelfTypes[0]}
               books={this.state.books}
+              filteredBooksIDs={this.props.shelves[this.props.shelfTypes[0]]}
+              updateShelf={this.props.updateShelf}
             />
             <Bookshelf
-              type="wantToRead"
+              type={this.props.shelfTypes[1]}
               books={this.state.books}
+              filteredBooksIDs={this.props.shelves[this.props.shelfTypes[1]]}
+              updateShelf={this.props.updateShelf}
             />
             <Bookshelf
-              type="read"
+              type={this.props.shelfTypes[2]}
               books={this.state.books}
+              filteredBooksIDs={this.props.shelves[this.props.shelfTypes[2]]}
+              updateShelf={this.props.updateShelf}
             />
             <Bookshelf
               type="none"
               books={this.state.books}
+              updateShelf={this.props.updateShelf}
             />
           <ol className="books-grid"></ol>
         </div>

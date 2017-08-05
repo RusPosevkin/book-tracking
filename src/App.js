@@ -8,13 +8,24 @@ import './App.css';
 
 class BooksApp extends React.Component {
   state = {
-    books: []
+    books: [],
+    shelfTypes: ['currentlyReading', 'wantToRead', 'read'],
+    shelves: {}
   }
 
   componentDidMount() {
     BooksAPI.getAll().then((books) => {
-      this.setState({ books })
-      console.log(books);
+      const shelves = this.state.shelfTypes.reduce((data, state, index) => {
+        data[state] = books.filter((book) => book.shelf === state).map((book) => book.id);
+        return data;
+      }, {});
+      this.setState({ books, shelves })
+    });
+  }
+
+  updateShelf = (book, shelf) => {
+    BooksAPI.update(book, shelf).then((shelves) => {
+      this.setState({shelves});
     });
   }
 
@@ -30,16 +41,22 @@ class BooksApp extends React.Component {
               <div className="list-books-content">
                 <div>
                   <Bookshelf
-                    type="currentlyReading"
+                    type={this.state.shelfTypes[0]}
                     books={this.state.books}
+                    filteredBooksIDs={this.state.shelves[this.state.shelfTypes[0]]}
+                    updateShelf={this.updateShelf}
                   />
                   <Bookshelf
-                    type="wantToRead"
+                    type={this.state.shelfTypes[1]}
                     books={this.state.books}
+                    filteredBooksIDs={this.state.shelves[this.state.shelfTypes[1]]}
+                    updateShelf={this.updateShelf}
                   />
                   <Bookshelf
-                    type="read"
+                    type={this.state.shelfTypes[2]}
                     books={this.state.books}
+                    filteredBooksIDs={this.state.shelves[this.state.shelfTypes[2]]}
+                    updateShelf={this.updateShelf}
                   />
                 </div>
               </div>
@@ -48,7 +65,13 @@ class BooksApp extends React.Component {
               </div>
             </div>
           )}/>
-          <Route path='/search' component={SearchBooks}/>
+          <Route exact path='/search' render={() => (
+            <SearchBooks
+              updateShelf={this.updateShelf}
+              shelves={this.state.shelves}
+              shelfTypes={this.state.shelfTypes}
+            />
+          )}/>
         </Switch>
       </div>
     )
