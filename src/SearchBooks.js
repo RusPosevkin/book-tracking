@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import * as BooksAPI from './BooksAPI';
-import Bookshelf from './Bookshelf';
+import Book from './Book';
 
 class SearchBooks extends Component {
   state = {
@@ -41,30 +41,15 @@ class SearchBooks extends Component {
           </div>
         </div>
         <div className="search-books-results">
-            <Bookshelf
-              type={this.props.shelfTypes[0]}
-              books={this.state.books}
-              filteredBooksIDs={this.props.shelves[this.props.shelfTypes[0]]}
-              updateShelf={this.props.updateShelf}
-            />
-            <Bookshelf
-              type={this.props.shelfTypes[1]}
-              books={this.state.books}
-              filteredBooksIDs={this.props.shelves[this.props.shelfTypes[1]]}
-              updateShelf={this.props.updateShelf}
-            />
-            <Bookshelf
-              type={this.props.shelfTypes[2]}
-              books={this.state.books}
-              filteredBooksIDs={this.props.shelves[this.props.shelfTypes[2]]}
-              updateShelf={this.props.updateShelf}
-            />
-            <Bookshelf
-              type="none"
-              books={this.state.books}
-              updateShelf={this.props.updateShelf}
-            />
-          <ol className="books-grid"></ol>
+          <ol className="books-grid">
+            {this.state.books.map((book) => (
+              <Book
+                key={book.id}
+                book={book}
+                updateShelf={this.props.updateShelf}
+              />
+            ))}
+          </ol>
         </div>
       </div>
     );

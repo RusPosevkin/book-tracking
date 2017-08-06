@@ -14,6 +14,10 @@ class BooksApp extends React.Component {
   }
 
   componentDidMount() {
+    this.getAllBooks();
+  }
+
+  getAllBooks = () => {
     BooksAPI.getAll().then((books) => {
       const shelves = this.state.shelfTypes.reduce((data, state, index) => {
         data[state] = books.filter((book) => book.shelf === state).map((book) => book.id);
@@ -23,9 +27,21 @@ class BooksApp extends React.Component {
     });
   }
 
+  // update shelf of concrete book without request to server
+  // used on '/' route
+  // because all books already saved into the state
   updateShelf = (book, shelf) => {
     BooksAPI.update(book, shelf).then((shelves) => {
       this.setState({shelves});
+    });
+  }
+
+  // update shelf of concrete book with request to server
+  // used on '/search' route
+  // because user can add new books 
+  updateShelfWithDataReload = (book, shelf) => {
+    BooksAPI.update(book, shelf).then((shelves) => {
+      this.getAllBooks();
     });
   }
 
@@ -67,7 +83,7 @@ class BooksApp extends React.Component {
           )}/>
           <Route exact path='/search' render={() => (
             <SearchBooks
-              updateShelf={this.updateShelf}
+              updateShelf={this.updateShelfWithDataReload}
               shelves={this.state.shelves}
               shelfTypes={this.state.shelfTypes}
             />
