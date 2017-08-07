@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Book from './Book';
+import keyIndex from 'react-key-index';
 
 class Bookshelf extends Component {
   static PropTypes = {
@@ -26,7 +27,6 @@ class Bookshelf extends Component {
     if (!filteredBooks.length) {
       return null;
     }
-
     return (
       <div className="bookshelf">
         <h2 className="bookshelf-title">{this.state.title[this.props.type]}</h2>
@@ -34,7 +34,7 @@ class Bookshelf extends Component {
           <ol className="books-grid">
             {filteredBooks.map((book) => (
               <Book
-                key={book.id}
+                key={keyIndex([book], 1)[0].id}
                 book={book}
                 updateShelf={this.props.updateShelf}
               />
