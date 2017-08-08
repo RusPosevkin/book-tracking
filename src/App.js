@@ -1,6 +1,5 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import * as BooksAPI from './BooksAPI';
 import SearchBooks from './SearchBooks';
 import ListBooks from './ListBooks';
@@ -32,6 +31,7 @@ class BooksApp extends React.Component {
   // because all books already saved into the state
   updateShelf = (book, shelf) => {
     BooksAPI.update(book, shelf).then((shelves) => {
+      book.shelf = shelf;
       this.setState({shelves});
     });
   }
@@ -41,6 +41,7 @@ class BooksApp extends React.Component {
   // because user can add new books
   updateShelfWithDataReload = (book, shelf) => {
     BooksAPI.update(book, shelf).then((shelves) => {
+      book.shelf = shelf;
       this.getAllBooks();
     });
   }
