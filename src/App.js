@@ -3,7 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import * as BooksAPI from './BooksAPI';
 import SearchBooks from './SearchBooks';
-import Bookshelf from './Bookshelf';
+import ListBooks from './ListBooks';
 import './App.css';
 
 class BooksApp extends React.Component {
@@ -38,7 +38,7 @@ class BooksApp extends React.Component {
 
   // update shelf of concrete book with request to server
   // used on '/search' route
-  // because user can add new books 
+  // because user can add new books
   updateShelfWithDataReload = (book, shelf) => {
     BooksAPI.update(book, shelf).then((shelves) => {
       this.getAllBooks();
@@ -50,36 +50,12 @@ class BooksApp extends React.Component {
       <div className="app">
         <Switch>
           <Route exact path='/' render={() => (
-            <div className="list-books">
-              <div className="list-books-title">
-                <h1>MyReads</h1>
-              </div>
-              <div className="list-books-content">
-                <div>
-                  <Bookshelf
-                    type={this.state.shelfTypes[0]}
-                    books={this.state.books}
-                    filteredBooksIDs={this.state.shelves[this.state.shelfTypes[0]]}
-                    updateShelf={this.updateShelf}
-                  />
-                  <Bookshelf
-                    type={this.state.shelfTypes[1]}
-                    books={this.state.books}
-                    filteredBooksIDs={this.state.shelves[this.state.shelfTypes[1]]}
-                    updateShelf={this.updateShelf}
-                  />
-                  <Bookshelf
-                    type={this.state.shelfTypes[2]}
-                    books={this.state.books}
-                    filteredBooksIDs={this.state.shelves[this.state.shelfTypes[2]]}
-                    updateShelf={this.updateShelf}
-                  />
-                </div>
-              </div>
-              <div className="open-search">
-                <Link to='/search'>Add a book</Link>
-              </div>
-            </div>
+            <ListBooks
+              updateShelf={this.updateShelf}
+              books={this.state.books}
+              shelves={this.state.shelves}
+              shelfTypes={this.state.shelfTypes}
+            />
           )}/>
           <Route exact path='/search' render={() => (
             <SearchBooks
