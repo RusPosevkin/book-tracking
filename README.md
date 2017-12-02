@@ -1,6 +1,9 @@
 # Book Tracking
 A bookshelf app that allows to select and categorize books that user have read, are currently reading, or want to read.
 
+## Demo
+![Demo animation](https://raw.githubusercontent.com/RusPosevkin/book-tracking/master/img/demo.gif "Demo animation")
+
 ## How to start
 1. Clone this repository
   ```bash
